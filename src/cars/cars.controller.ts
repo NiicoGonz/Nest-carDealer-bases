@@ -9,9 +9,12 @@ import {
   HttpException,
   HttpStatus,
   ParseUUIDPipe,
+  ValidationPipe,
+  UsePipes,
 } from '@nestjs/common';
 import { Car } from 'src/cars/interfaces/car.interface';
 import { CarsService } from './cars.service';
+import { CreateCarDto } from './interfaces/dto/create-car.dto';
 @Controller('cars')
 export class CarsController {
   constructor(private readonly carsService: CarsService) {}
@@ -25,8 +28,8 @@ export class CarsController {
   }
 
   @Post()
-  async createCar(@Body() car: Car): Promise<any> {
-    return this.carsService.createCar(car);
+  async createCar(@Body() createCarDto: CreateCarDto): Promise<any> {
+    return createCarDto
   }
 
   @Delete(':id')
