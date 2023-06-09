@@ -15,12 +15,13 @@ import {
 import { Car } from 'src/cars/interfaces/car.interface';
 import { CarsService } from './cars.service';
 import { CreateCarDto } from './interfaces/dto/create-car.dto';
+import { UpdateCarDto } from './interfaces/dto/update-car.dto';
 @Controller('cars')
 export class CarsController {
   constructor(private readonly carsService: CarsService) {}
   @Get()
   async getCars(): Promise<Car[]> {
-    return this.carsService.getCars();
+    return this.carsService.findAll();
   }
   @Get(':id')
   getCarById(@Param('id', ParseUUIDPipe) id: string) {
@@ -29,7 +30,7 @@ export class CarsController {
 
   @Post()
   async createCar(@Body() createCarDto: CreateCarDto): Promise<any> {
-    return createCarDto
+    return this.carsService.createCar(createCarDto);
   }
 
   @Delete(':id')
@@ -40,8 +41,8 @@ export class CarsController {
   @Patch(':id')
   async updateCar(
     @Param('id', ParseUUIDPipe) id: string,
-    @Body() car: Car,
+    @Body() updateCarDto: UpdateCarDto,
   ): Promise<any> {
-    return this.carsService.updateCar(id, car);
+    return this.carsService.updateCar(id, updateCarDto);
   }
 }
